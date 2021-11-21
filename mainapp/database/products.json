@@ -1,0 +1,44 @@
+[
+	{
+	"title": "Tittle goes here",
+	"price": "$128.25",
+	"description": "Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.",
+	"image": "product_01.jpg",
+	"reviews": "Reviews (12)"
+	},
+	{
+	"title": "Tittle goes here",
+	"price": "$16.75",
+	"description": "Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.",
+	"image": "product_02.jpg",
+	"reviews": "Reviews (22)"
+	},
+	{
+	"title": "Tittle goes here",
+	"price": "$32.50",
+	"description": "Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.",
+	"image": "product_03.jpg",
+	"reviews": "Reviews (31)"
+	},
+	{
+	"title": "Tittle goes here",
+	"price": "$24.60",
+	"description": "Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.",
+	"image": "product_04.jpg",
+	"reviews": "Reviews (10)"
+	},
+	{
+	"title": "Tittle goes here",
+	"price": "$18.75",
+	"description": "Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.",
+	"image": "product_05.jpg",
+	"reviews": "Reviews (5)"
+	},
+	{
+	"title": "Tittle goes here",
+	"price": "$12.50",
+	"description": "Lorem ipsume dolor sit amet, adipisicing elite. Itaque, corporis nulla aspernatur.",
+	"image": "product_06.jpg",
+	"reviews": "Reviews (56)"
+	}
+]

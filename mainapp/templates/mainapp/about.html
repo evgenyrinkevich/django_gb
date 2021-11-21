@@ -1,0 +1,127 @@
+{% extends 'mainapp/base.html' %}
+{% load static %}
+
+
+
+
+  {% block content %}
+    <div class="page-heading about-heading header-text">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="text-content">
+              <h4>about us</h4>
+              <h2>our company</h2>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="best-features about-features">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-heading">
+              <h2>Our Background</h2>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="right-image">
+              <img src="{% static 'images/feature-image.jpg' %}" alt="">
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="left-content">
+              <h4>Who we are &amp; What we do?</h4>
+              <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed voluptate nihil eum consectetur similique? Consectetur, quod, incidunt, harum nisi dolores delectus reprehenderit voluptatem perferendis dicta dolorem non blanditiis ex fugiat. Lorem ipsum dolor sit amet, consectetur adipisicing elit.<br><br>Lorem ipsum dolor sit amet, consectetur adipisicing elit. Et, consequuntur, modi mollitia corporis ipsa voluptate corrupti eum ratione ex ea praesentium quibusdam? Aut, in eum facere corrupti necessitatibus perspiciatis quis.</p>
+              <ul class="social-icons">
+                {% for item in social_icons %}
+                  <li><a href="#"><i class="fa fa-{{ item }}"></i></a></li>
+                {% endfor %}
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="team-members">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-heading">
+              <h2>Our Team Members</h2>
+            </div>
+          </div>
+          {% for person in employees %}
+            <div class="col-md-4">
+              <div class="team-member">
+                <div class="thumb-container">
+                  <img src="{% static 'images/' %}{{ person.photo }}" alt="">
+                  <div class="hover-effect">
+                    <div class="hover-content">
+                      <ul class="social-icons">
+                        {% for item in social_icons %}
+                          <li><a href="#"><i class="fa fa-{{ item }}"></i></a></li>
+                        {% endfor %}
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+                <div class="down-content">
+                  <h4>{{ person.name }}</h4>
+                  <span>{{ person.position }}</span>
+                  <p>Lorem ipsum dolor sit amet, consectetur adipisicing itaque corporis nulla.</p>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+
+
+
+    <div class="services">
+      <div class="container">
+        <div class="row">
+          {% for item in services %}
+            <div class="col-md-4">
+              <div class="service-item">
+                <div class="icon">
+                  <i class="fa fa-gear"></i>
+                </div>
+                <div class="down-content">
+                  <h4>{{ item.name }}</h4>
+                  <p>{{ item.description }}</p>
+                  <a href="#" class="filled-button">{{ item.button_text }}</a>
+                </div>
+              </div>
+            </div>
+          {% endfor %}
+        </div>
+      </div>
+    </div>
+
+    <div class="happy-clients">
+      <div class="container">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="section-heading">
+              <h2>Happy Partners</h2>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="owl-clients owl-carousel">
+              {% for item in customers %}
+                <div class="client-item">
+                  <img src="{% static 'images/' %}{{ item }}" alt="1">
+                </div>
+              {% endfor %}
+
+
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  {% endblock %}
+
