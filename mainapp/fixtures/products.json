@@ -1,0 +1,44 @@
+[
+	{
+		"title": "Ugg",
+		"price": "$128.25",
+		"description": "Classic ugg for women",
+		"image": "product_01.jpg",
+		"reviews": "Reviews (12)"
+	},
+	{
+		"title": "Bacca Bucci sneakers",
+		"price": "$116.75",
+		"description": "Lightweight and eliminate the excess lining material sneakers",
+		"image": "product_02.jpg",
+		"reviews": "Reviews (22)"
+	},
+	{
+		"title": "Dr. Martens",
+		"price": "$232.50",
+		"description": "For winter",
+		"image": "product_03.jpg",
+		"reviews": "Reviews (31)"
+	},
+	{
+		"title": "Leather jacket Zara",
+		"price": "$124.60",
+		"description": "Faux leather jacket with a lapel collar and long sleeves.",
+		"image": "product_04.jpg",
+		"reviews": "Reviews (10)"
+	},
+	{
+		"title": "Bomber jacket",
+		"price": "$118.75",
+		"description": "Cotton & Polyester Hand Wash Only Lightweight slim fit bomber jacket",
+		"image": "product_05.jpg",
+		"reviews": "Reviews (5)"
+	},
+	{
+		"title": "Beanie",
+		"price": "$12.50",
+		"description": "Heavy ribbed knit. Cuffed design. Tear-Away label. One size. 100% soft touch acrylic",
+		"image": "product_06.jpg",
+		"reviews": "Reviews (56)"
+	}
+]

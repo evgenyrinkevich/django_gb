@@ -23,12 +23,7 @@
           <div class="row">
             <div class="col-md-12">
               <div class="filters">
-                <ul>
-                    <li class="active" data-filter="*">All Products</li>
-                    <li data-filter=".des">Featured</li>
-                    <li data-filter=".dev">Flash Deals</li>
-                    <li data-filter=".gra">Last Minute</li>
-                </ul>
+                 {% include 'mainapp/includes/inc__category_menu.html' %}
               </div>
             </div>
             <div class="col-md-12">
@@ -38,13 +33,12 @@
                     {% for item in products %}
                       <div class="col-lg-4 col-md-4 all des">
                         <div class="product-item">
-                          <a href="#"><img src="{% static 'images/' %}{{ item.image }}" alt=""></a>
+                          <a href="#"><img src="/media/{{ item.image }}" alt=""></a>
                           <div class="down-content">
-                            <a href="#"><h4>{{ item.title }}</h4></a>
-                            <h6>{{ item.price }}</h6>
+                            <a href="#"><h4>{{ item.name|title }}</h4></a>
+                            <h6>${{ item.price }}</h6>
                             <p>{{ item.description }}</p>
                             {% include 'mainapp/includes/inc__stars.html' %}
-                            <span>{{ item.reviews }}</span>
                           </div>
                         </div>
                       </div>
