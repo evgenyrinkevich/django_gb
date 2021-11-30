@@ -2,6 +2,8 @@ import os
 import json
 
 from django.core.management import BaseCommand
+
+from authapp.models import ShopUser
 from mainapp.models import Product, ProductCategory
 from django.conf import settings
 
@@ -28,5 +30,6 @@ class Command(BaseCommand):
             new_product = Product(**product)
             new_product.save()
 
-        # super_user = User.objects.create_superuser('django', 'django@gb.ru', 'geekbrains')
+        if not ShopUser.objects.filter(username='django').exists():
+            ShopUser.objects.create_superuser(username='django', email='django@gb.ru', password='geekbrains')
 
