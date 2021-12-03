@@ -3,10 +3,16 @@ import json
 from .models import ProductCategory, Product
 
 
+def get_basket(request):
+    return request.user.is_authenticated and request.user.basket_set.all() or []
+
+
 def index(request):
     products_list = Product.objects.all()
     context = {'page_title': 'home',
-               'products': products_list}
+               'products': products_list,
+               'basket': get_basket(request)
+               }
 
     return render(request, 'mainapp/index.html', context)
 
@@ -26,7 +32,9 @@ def products(request):
     product_category = ProductCategory.objects.all()
     context = {'page_title': 'products',
                'products': products_list,
-               'categories': product_category}
+               'categories': product_category,
+               'basket': get_basket(request)
+               }
 
     return render(request, 'mainapp/products.html', context)
 
@@ -46,7 +54,8 @@ def products_by_category(request, pk=None):
     prods_by_category = category.product_set.all()
     context = {'page_title': category.name,
                'products': prods_by_category,
-               'categories': product_categories
+               'categories': product_categories,
+               'basket': get_basket(request)
                }
     return render(request, 'mainapp/products.html', context)
 
