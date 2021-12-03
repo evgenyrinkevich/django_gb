@@ -49,3 +49,4 @@ def products_by_category(request, pk=None):
                'categories': product_categories
                }
     return render(request, 'mainapp/products.html', context)
+
