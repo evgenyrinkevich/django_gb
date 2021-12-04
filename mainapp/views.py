@@ -4,7 +4,7 @@ from .models import ProductCategory, Product
 
 
 def get_basket(request):
-    return request.user.is_authenticated and request.user.basket_set.all() or []
+    return request.user.is_authenticated and request.user.basket.all() or []
 
 
 def index(request):
@@ -22,7 +22,11 @@ def about(request):
         json_object = json.load(json_file)
         json_file.close()
 
-    context = json_object
+    context = {
+        'page_title': 'about',
+        'json_object': json_object,
+        'basket': get_basket(request)
+    }
 
     return render(request, 'mainapp/about.html', context)
 
@@ -43,7 +47,11 @@ def contact(request):
     with open("mainapp/fixtures/contact.json", encoding="utf-8") as json_file:
         json_object = json.load(json_file)
         json_file.close()
-    context = json_object
+    context = {
+        'page_title': 'contact',
+        'json_object': json_object,
+        'basket': get_basket(request)
+    }
 
     return render(request, 'mainapp/contact.html', context)
 

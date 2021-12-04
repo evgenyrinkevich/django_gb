@@ -65,7 +65,6 @@ def edit(request):
 def change_password(request):
     if request.method == 'POST':
         form = ShopUserChangePasswordForm(data=request.POST, user=request.user)
-        print(request.POST, form.is_valid())
         if form.is_valid():
             form.save()
             update_session_auth_hash(request, form.user)
