@@ -1,3 +1,5 @@
+from random import choice
+
 from django.shortcuts import render, get_object_or_404
 import json
 from .models import ProductCategory, Product
@@ -8,12 +10,16 @@ def get_basket(request):
 
 
 def index(request):
-    products_list = Product.objects.all()
-    context = {'page_title': 'home',
-               'products': products_list,
-               'basket': get_basket(request)
-               }
+    hot_offer_pk = choice(Product.objects.values_list('pk', flat=True))
+    hot_offer = Product.objects.get(pk=hot_offer_pk)
 
+    same_products = hot_offer.category.product_set.exclude(pk=hot_offer_pk)
+    context = {'page_title': 'home',
+               'same_products': same_products,
+               'basket': get_basket(request),
+               'hot_offer': hot_offer
+               }
+    print(hot_offer)
     return render(request, 'mainapp/index.html', context)
 
 
