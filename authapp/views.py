@@ -8,23 +8,56 @@ from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditF
 
 
 def login(request):
-    if request.method == 'POST':
-        form = ShopUserLoginForm(data=request.POST)
-        if form.is_valid():
-            username = request.POST['username']
-            password = request.POST['password']
+    form = ShopUserLoginForm(data=request.POST or None)
+    next_info = request.GET['next'] if 'next' in request.GET.keys() else ''
 
-            user = auth.authenticate(username=username, password=password)
-            if user and user.is_active:
-                auth.login(request, user)
+    if request.method == 'POST' and form.is_valid():
+        username = request.POST['username']
+        password = request.POST['password']
+
+        user = auth.authenticate(username=username, password=password)
+        if user and user.is_active:
+            auth.login(request, user)
+            if 'next' in request.POST.keys():
+                return HttpResponseRedirect(request.POST['next'])
+            else:
                 return HttpResponseRedirect(reverse('main:index'))
     else:
         form = ShopUserLoginForm()
+
     context = {
         'title': 'login',
-        'form': form
+        'form': form,
+        'next': next_info
     }
     return render(request, 'authapp/login.html', context)
+
+
+# def login(request):
+#
+#     if request.method == 'POST':
+#         form = ShopUserLoginForm(data=request.POST or None)
+#         next_info = request.GET['next'] if 'next' in request.GET.keys() else ''
+#
+#         if request.method == 'POST' and form.is_valid():
+#             username = request.POST['username']
+#             password = request.POST['password']
+#
+#             user = auth.authenticate(username=username, password=password)
+#             if user and user.is_active:
+#                 auth.login(request, user)
+#                 if 'next' in request.POST.keys():
+#                     return HttpResponseRedirect(request.POST['next'])
+#                 else:
+#                     return HttpResponseRedirect(reverse('main:index'))
+#     else:
+#         form = ShopUserLoginForm()
+#     context = {
+#         'title': 'login',
+#         'form': form,
+#         'next': next_info
+#     }
+#     return render(request, 'authapp/login.html', context)
 
 
 def logout(request):
