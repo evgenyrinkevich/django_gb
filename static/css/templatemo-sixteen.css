@@ -1067,3 +1067,11 @@ li.category-active > a {
 .product_name {
 	color: grey;
 }
+
+.product_record.not_active {
+	opacity: 0.5;
+}
+
+.user_record.not_active {
+	opacity: 0.5;
+}

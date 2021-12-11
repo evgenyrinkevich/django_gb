@@ -55,7 +55,7 @@ def change(request, pk, quantity):
         context = {
             'basket': request.user.basket.all()
         }
-        result = render_to_string('basketapp/includes/inc_basket_list.html', context)
+        result = render_to_string('basketapp/includes/inc_basket_list.html', context, request=request)
 
         return JsonResponse({
             'result': result
