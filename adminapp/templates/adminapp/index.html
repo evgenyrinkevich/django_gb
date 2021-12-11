@@ -4,7 +4,7 @@
 {% block content %}
 <div class="users_list">
     <button class="btn btn-light new_user">
-        <a href="{#% url 'admin:user_create' %# }">
+        <a href="{% url 'my_admin:user_create' %}">
         new user
         </a>
     </button>
@@ -19,12 +19,12 @@
             {% endif %}
             <br>
             <button class="btn btn-light">
-                <a href="{#% url 'admin:user_update' object.pk %#}">
+                <a href="{% url 'my_admin:user_update' object.pk %}">
                 edit
                 </a>
             </button>
             <button class="btn btn-light">
-                <a href="{#% url 'admin:user_delete' object.pk %#}">
+                <a href="{% url 'my_admin:user_delete' object.pk %}">
                 delete
                 </a>
             </button>
