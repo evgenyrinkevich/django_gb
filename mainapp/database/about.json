@@ -1,0 +1,65 @@
+{
+    "page_title": "about",
+    "social_icons": [
+        "facebook",
+        "twitter",
+        "linkedin",
+        "behance"
+        ],
+    "employees": [
+        {
+             "name": "Johnny William",
+            "position": "CO-Founder",
+            "photo": "team_01.jpg"
+        },
+        {
+            "name": "Karry Pitcher",
+            "position": "Product Expert",
+            "photo": "team_02.jpg"
+        },
+        {
+            "name": "Michael Soft",
+            "position": "Chief Marketing",
+            "photo": "team_03.jpg"
+        },
+        {
+            "name": "Mary Cool",
+            "position": "Product Specialist",
+            "photo": "team_04.jpg"
+        },
+        {
+            "name": "George Walker",
+            "position": "Product Photographer",
+            "photo": "team_05.jpg"
+        },
+        {
+            "name": "Kate Town",
+            "position": "General Manager",
+            "photo": "team_06.jpg"
+        }
+        ],
+    "customers": [
+        "client-01.png",
+        "client-02.png",
+        "client-03.png",
+        "client-04.png",
+        "client-05.png"
+        ],
+    "services": [
+        {
+            "name": "Product Management",
+            "description": "Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat.",
+            "button_text": "Read More"
+        },
+        {
+            "name": "Customer Relations",
+            "description": "Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat.",
+            "button_text": "Details"
+        },
+        {
+            "name": "Global Collection",
+            "description": "Lorem ipsum dolor sit amet, consectetur an adipisicing elit. Itaque, corporis nulla at quia quaerat.",
+            "button_text": "Read More"
+        }
+        ]
+}

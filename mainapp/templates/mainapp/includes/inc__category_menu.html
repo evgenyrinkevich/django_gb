@@ -8,7 +8,7 @@
     </li>
     {% for item in categories %}
         <li {% if request.resolver_match.kwargs.pk == item.pk %}class="active" {% endif %}>
-            <a href="{% url 'main:category' item.id %}">{{ item.name }}</a>
+            <a class="nav-link" href="{% url 'main:category' item.id %}">{{ item.name }}</a>
         </li>
     {% endfor %}
 </ul>

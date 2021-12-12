@@ -1,0 +1,50 @@
+[
+	{
+		"name": "Ugg",
+		"price": 128.25,
+		"description": "Classic ugg for women",
+		"image": "products_images/ugg.jpeg",
+		"quantity": 55,
+		"category": "shoes"
+	},
+	{
+		"name": "Bacca Bucci sneakers",
+		"price": 116.75,
+		"description": "Lightweight and eliminate the excess lining material sneakers",
+		"image": "products_images/baccabucci.jpg",
+		"quantity": 89,
+		"category": "shoes"
+	},
+	{
+		"name": "Dr. Martens",
+		"price": 232.50,
+		"description": "For winter",
+		"image": "products_images/drmartens.jpeg",
+		"quantity": 124,
+		"category": "shoes"
+	},
+	{
+		"name": "Leather jacket Zara",
+		"price": 124.60,
+		"description": "Faux leather jacket with a lapel collar and long sleeves.",
+		"image": "products_images/leatherjacket.jpeg",
+		"quantity": 75,
+		"category": "jackets"
+	},
+	{
+		"name": "Bomber jacket",
+		"price": 118.75,
+		"description": "Cotton & Polyester Hand Wash Only Lightweight slim fit bomber jacket",
+		"image": "products_images/bomberjacket.jpg",
+		"quantity": 65,
+		"category": "jackets"
+	},
+	{
+		"name": "Beanie",
+		"price": 12.50,
+		"description": "Heavy ribbed knit. Cuffed design. Tear-Away label. One size. 100% soft touch acrylic",
+		"image": "products_images/beanie.jpg",
+		"quantity": 52,
+		"category": "hats"
+	}
+]

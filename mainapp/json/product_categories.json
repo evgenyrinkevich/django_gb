@@ -1,0 +1,14 @@
+[
+    {
+        "name": "shoes",
+        "description": "Shoes for any weather"
+    },
+    {
+        "name": "jackets",
+        "description": "High quality jackets"
+    },
+    {
+        "name": "hats",
+        "description": "Stylish hats"
+    }
+]

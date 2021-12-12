@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+    <title>
+      {{ title|title }}
+    </title>
+    {% block css %}
+      <link rel="stylesheet" type="text/css" href="{% static 'bootstrap/css/bootstrap.min.css' %}">
+      <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+      <link rel="stylesheet" href="{% static 'css/templatemo-sixteen.css' %}">
+      <link rel="stylesheet" href="{% static 'css/owl.css' %}">
+    {% endblock %}
+
+</head>
+<body>
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+<div class="container">
+  <div class="login">
+
+
+    {% block container %}
+    {% endblock %}
+  </div>
+
+</div>
+    {% block footer %}
+      <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="inner-content">
+                <p>Evgeny Rinkevich© {% now "Y" %}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    {% endblock %}
+
+    {% block js %}
+      <!-- Bootstrap core JavaScript -->
+
+      <script src="{% static 'jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+
+
+      <!-- Additional Scripts -->
+      <script src="{% static 'js/custom.js' %}"></script>
+      <script src="{% static 'js/owl.js' %}"></script>
+      <script src="{% static 'js/slick.js' %}"></script>
+      <script src="{% static 'js/isotope.js' %}"></script>
+      <script src="{% static 'js/accordions.js' %}"></script>
+    {% endblock %}
+</body>
+</html>
