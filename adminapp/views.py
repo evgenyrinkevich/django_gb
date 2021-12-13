@@ -5,6 +5,7 @@ from django.urls import reverse
 
 from adminapp.forms import AdminShopUserCreateForm, AdminShopUserUpdateForm
 from authapp.models import ShopUser
+from mainapp.models import ProductCategory
 
 
 @user_passes_test(lambda x: x.is_superuser)
@@ -68,3 +69,31 @@ def user_delete(request, pk):
     }
 
     return render(request, 'adminapp/user_delete.html', context)
+
+
+@user_passes_test(lambda x: x.is_superuser)
+def user_restore(request, pk):
+    user = get_object_or_404(ShopUser, pk=pk)
+    user.is_active = True
+    user.save()
+    users_list = ShopUser.objects.all().order_by('-is_active', '-is_superuser', '-is_staff', 'username')
+
+    context = {
+        'title': 'admin/users',
+        'object_list': users_list
+    }
+
+    return render(request, 'adminapp/index.html', context)
+
+
+@user_passes_test(lambda x: x.is_superuser)
+def categories_list(request):
+    categories = ProductCategory.objects.all()
+    context = {
+        'title': 'admin/categories',
+        'object_list': categories
+    }
+
+    return render(request, 'adminapp/categories_list.html', context)
+
+

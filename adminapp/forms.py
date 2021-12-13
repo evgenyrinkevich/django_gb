@@ -3,6 +3,7 @@ import django.forms as forms
 from django.core.exceptions import ValidationError
 
 from authapp.models import ShopUser
+from mainapp.models import ProductCategory
 
 
 class AdminShopUserCreateForm(UserCreationForm):
@@ -57,3 +58,15 @@ class AdminShopUserUpdateForm(UserChangeForm):
         if not data.isascii():
             raise ValidationError('First name should be latin characters')
         return data
+
+
+class ProductCategoryEditForm(forms.ModelForm):
+    class Meta:
+        model = ProductCategory
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.help_text = ''

@@ -12,7 +12,7 @@
         </a>
     </li>
     <li class="nav-item">
-        <a href="{#% url 'admin:categories' %#}"
+        <a href="{% url 'my_admin:categories_list' %}"
            {% if request.resolver_match.url_name == 'categories' or category.name %}
                 class="active"
               {% endif %}>
