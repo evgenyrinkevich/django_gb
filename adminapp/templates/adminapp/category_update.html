@@ -1,0 +1,20 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+{% block menu %}
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+      <div class="new_category_form">
+          <form class="form-horizontal" method="post" enctype="multipart/form-data">
+              {% csrf_token %}
+              {{ form.as_p }}
+              <input class="form-control" type="submit" value="save">
+          </form>
+          <a href="{% url 'my_admin:categories_list' %}" class="btn btn-primary form-control last">
+            to categories list
+          </a>
+      </div>
+    </div>
+{% endblock %}

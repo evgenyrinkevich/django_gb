@@ -5,7 +5,7 @@
   <div class="container">
     <div class="categories_list">
       <button class="new_category">
-        <a href="{#% url 'my_admin:category_create' %#}">
+        <a href="{% url 'my_admin:category_create' %}">
           new category
         </a>
       </button>
@@ -22,7 +22,7 @@
               </a>
             </button>
             <button>
-              <a href="{#% url 'my_admin:category_update' object.pk %#}">
+              <a href="{% url 'my_admin:category_update' object.pk %}">
                 edit
               </a>
             </button>

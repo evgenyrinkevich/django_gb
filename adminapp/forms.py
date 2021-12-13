@@ -60,7 +60,7 @@ class AdminShopUserUpdateForm(UserChangeForm):
         return data
 
 
-class ProductCategoryEditForm(forms.ModelForm):
+class AdminProductCategoryUpdateForm(forms.ModelForm):
     class Meta:
         model = ProductCategory
         fields = '__all__'
