@@ -17,7 +17,7 @@
           </div>
           <div class="category_actions">
             <button>
-              <a href="{#% url 'my_admin:products' object.pk %#}">
+              <a href="{% url 'my_admin:category_products' object.pk %}">
                 products in category
               </a>
             </button>
@@ -39,7 +39,7 @@
             </button>
           </div>
           <div class="category_desc">
-            {{ object.description|title }}
+            {{ object.description|capfirst }}
           </div>
         </div>
       {% endfor%}

@@ -10,7 +10,7 @@ def get_basket(request):
 
 
 def get_menu():
-    return ProductCategory.objects.all()
+    return ProductCategory.objects.filter(is_active=True)
 
 
 def index(request):

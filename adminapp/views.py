@@ -156,3 +156,17 @@ def category_restore(request, pk):
     category.save()
 
     return HttpResponseRedirect(reverse('my_admin:categories_list'))
+
+
+@user_passes_test(lambda x: x.is_superuser)
+def category_products(request, pk):
+    category = get_object_or_404(ProductCategory, pk=pk)
+    objects = category.product_set.all()
+
+    context = {
+        'title': f'products from {category.name} category',
+        'category': category,
+        'object_list': objects
+    }
+
+    return render(request, 'adminapp/category_products.html', context)
