@@ -3,7 +3,7 @@ from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse
 
-from adminapp.forms import AdminShopUserCreateForm, AdminShopUserUpdateForm
+from adminapp.forms import AdminShopUserCreateForm, AdminShopUserUpdateForm, AdminProductCategoryUpdateForm
 from authapp.models import ShopUser
 from mainapp.models import ProductCategory
 
@@ -79,7 +79,7 @@ def user_restore(request, pk):
     users_list = ShopUser.objects.all().order_by('-is_active', '-is_superuser', '-is_staff', 'username')
 
     context = {
-        'title': 'admin/users',
+        'title': 'user restore',
         'object_list': users_list
     }
 
@@ -97,3 +97,62 @@ def categories_list(request):
     return render(request, 'adminapp/categories_list.html', context)
 
 
+@user_passes_test(lambda x: x.is_superuser)
+def category_create(request):
+    if request.method == 'POST':
+        form = AdminProductCategoryUpdateForm(request.POST, request.FILES)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('my_admin:categories_list'))
+    else:
+        form = AdminProductCategoryUpdateForm()
+
+    context = {
+        'title': 'create category',
+        'form': form
+    }
+    return render(request, 'adminapp/category_update.html', context)
+
+
+@user_passes_test(lambda x: x.is_superuser)
+def category_update(request, pk):
+    category = get_object_or_404(ProductCategory, pk=pk)
+    if request.method == 'POST':
+        form = AdminProductCategoryUpdateForm(request.POST, request.FILES, instance=category)
+        if form.is_valid():
+            form.save()
+            return HttpResponseRedirect(reverse('my_admin:categories_list'))
+    else:
+        form = AdminProductCategoryUpdateForm(instance=category)
+
+    context = {
+        'title': 'update category',
+        'form': form
+    }
+    return render(request, 'adminapp/category_update.html', context)
+
+
+@user_passes_test(lambda x: x.is_superuser)
+def category_delete(request, pk):
+    category = get_object_or_404(ProductCategory, pk=pk)
+
+    if request.method == 'POST':
+        category.is_active = False
+        category.save()
+        return HttpResponseRedirect(reverse('my_admin:categories_list'))
+
+    context = {
+        'title': 'delete category',
+        'category_to_delete': category
+    }
+
+    return render(request, 'adminapp/category_delete.html', context)
+
+
+@user_passes_test(lambda x: x.is_superuser)
+def category_restore(request, pk):
+    category = get_object_or_404(ProductCategory, pk=pk)
+    category.is_active = True
+    category.save()
+
+    return HttpResponseRedirect(reverse('my_admin:categories_list'))

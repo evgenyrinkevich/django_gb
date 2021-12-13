@@ -27,9 +27,15 @@
               </a>
             </button>
             <button>
-              <a href="{#% url 'my_admin:category_delete' object.pk %#}">
-                delete
-              </a>
+              {% if object.is_active %}
+                <a href="{% url 'my_admin:category_delete' object.pk %}">
+                  delete
+                </a>
+              {% else %}
+                <a href="{% url 'my_admin:category_restore' object.pk %}">
+                  restore
+                </a>
+              {% endif %}
             </button>
           </div>
           <div class="category_desc">

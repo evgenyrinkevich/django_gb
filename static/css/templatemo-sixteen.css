@@ -1075,3 +1075,7 @@ li.category-active > a {
 .user_record.not_active {
 	opacity: 0.5;
 }
+
+.category_record.not_active {
+	opacity: 0.5;
+}
