@@ -1,0 +1,37 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+{% block content %}
+<div class="container">
+  <div class="product_read">
+    <div class="row">
+            <div class="col-md-6">
+                <div class="product-item ">
+                    <img src="/media/{{ object.image }}" alt="">
+                    <div class="down-content">
+                        <h4>{{ object.name|title }}</h4>
+                        <h6>${{ object.price }}</h6>
+                        <p>{{ object.description }}</p>
+                        <b>in catalog</b>
+                        <p>{% if object.is_active %}yes{% else %}no{% endif %}</p>
+                    </div>
+                </div>
+                <div>
+                  <p>
+                    <a href="{% url 'my_admin:product_update' object.pk %}" class="btn btn-primary">
+                      edit
+                    </a>
+                    <a href="{% url 'my_admin:product_delete' object.pk %}" class="btn btn-danger">
+                      delete
+                    </a>
+                    <a href="{% url 'my_admin:category_products' object.category.pk %}" class="btn btn-default">
+                      back
+                    </a>
+                  </p>
+                </div>
+            </div>
+
+        </div>
+  </div>
+</div>
+{% endblock %}

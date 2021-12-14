@@ -14,16 +14,15 @@ def get_menu():
 
 
 def index(request):
-    hot_offer_pk = choice(Product.objects.values_list('pk', flat=True))
+    hot_offer_pk = choice(Product.objects.filter(is_active=True).values_list('pk', flat=True))
     hot_offer = Product.objects.get(pk=hot_offer_pk)
 
-    same_products = hot_offer.category.product_set.exclude(pk=hot_offer_pk)
+    same_products = hot_offer.category.product_set.filter(is_active=True).exclude(pk=hot_offer_pk)
     context = {'page_title': 'home',
                'same_products': same_products,
                'basket': get_basket(request),
                'hot_offer': hot_offer
                }
-    print(hot_offer)
     return render(request, 'mainapp/index.html', context)
 
 
@@ -42,7 +41,7 @@ def about(request):
 
 
 def products(request):
-    products_list = Product.objects.all()
+    products_list = Product.objects.filter(is_active=True)
     context = {'page_title': 'products',
                'products': products_list,
                'categories': get_menu(),
@@ -78,7 +77,7 @@ def contact(request):
 
 def products_by_category(request, pk=None):
     category = get_object_or_404(ProductCategory, pk=pk)
-    prods_by_category = category.product_set.all()
+    prods_by_category = category.product_set.filter(is_active=True)
     context = {'page_title': category.name,
                'products': prods_by_category,
                'categories': get_menu(),

@@ -3,7 +3,7 @@ import django.forms as forms
 from django.core.exceptions import ValidationError
 
 from authapp.models import ShopUser
-from mainapp.models import ProductCategory
+from mainapp.models import ProductCategory, Product
 
 
 class AdminShopUserCreateForm(UserCreationForm):
@@ -63,6 +63,18 @@ class AdminShopUserUpdateForm(UserChangeForm):
 class AdminProductCategoryUpdateForm(forms.ModelForm):
     class Meta:
         model = ProductCategory
+        fields = '__all__'
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = 'form-control'
+            field.help_text = ''
+
+
+class AdminProductUpdateForm(forms.ModelForm):
+    class Meta:
+        model = Product
         fields = '__all__'
 
     def __init__(self, *args, **kwargs):

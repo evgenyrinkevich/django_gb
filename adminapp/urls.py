@@ -18,4 +18,9 @@ urlpatterns = [
     path('category/restore/<int:pk>/', adminapp.category_restore, name='category_restore'),
     path('category/<int:pk>/products/', adminapp.category_products, name='category_products'),
 
+    path('category/<int:category_pk>/product/create/', adminapp.product_create, name='product_create'),
+    path('product/read/<int:pk>/', adminapp.product_read, name='product_read'),
+    path('product/update/<int:pk>/', adminapp.product_update, name='product_update'),
+    path('product/delete/<int:pk>/', adminapp.product_delete, name='product_delete'),
+
 ]
