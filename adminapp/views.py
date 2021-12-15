@@ -1,7 +1,9 @@
 from django.contrib.auth.decorators import user_passes_test
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
-from django.urls import reverse
+from django.urls import reverse, reverse_lazy
+from django.utils.decorators import method_decorator
+from django.views.generic import ListView, CreateView, UpdateView, DeleteView, DetailView
 
 from adminapp.forms import AdminShopUserCreateForm, AdminShopUserUpdateForm, AdminProductCategoryUpdateForm, \
     AdminProductUpdateForm
@@ -9,15 +11,24 @@ from authapp.models import ShopUser
 from mainapp.models import ProductCategory, Product
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def index(request):
-    users_list = ShopUser.objects.all().order_by('-is_active', '-is_superuser', '-is_staff', 'username')
-    context = {
-        'title': 'admin/users',
-        'object_list': users_list
-    }
+class SuperUserOnlyMixin:
+    @method_decorator(user_passes_test(lambda x: x.is_superuser))
+    def dispatch(self, request, *args, **kwargs):
+        return super().dispatch(request, *args, **kwargs)
 
-    return render(request, 'adminapp/index.html', context)
+
+class PageTitleMixin:
+    page_title = ''
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.page_title
+        return context
+
+
+class ShopUserList(SuperUserOnlyMixin, PageTitleMixin, ListView):
+    model = ShopUser
+    page_title = 'users'
 
 
 @user_passes_test(lambda x: x.is_superuser)
@@ -98,56 +109,30 @@ def categories_list(request):
     return render(request, 'adminapp/categories_list.html', context)
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def category_create(request):
-    if request.method == 'POST':
-        form = AdminProductCategoryUpdateForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('my_admin:categories_list'))
-    else:
-        form = AdminProductCategoryUpdateForm()
-
-    context = {
-        'title': 'create category',
-        'form': form
-    }
-    return render(request, 'adminapp/category_update.html', context)
+class ProductCategoryCreateView(SuperUserOnlyMixin, PageTitleMixin, CreateView):
+    model = ProductCategory
+    success_url = reverse_lazy('my_admin:categories_list')
+    form_class = AdminProductCategoryUpdateForm
+    page_title = 'create category'
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def category_update(request, pk):
-    category = get_object_or_404(ProductCategory, pk=pk)
-    if request.method == 'POST':
-        form = AdminProductCategoryUpdateForm(request.POST, request.FILES, instance=category)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('my_admin:categories_list'))
-    else:
-        form = AdminProductCategoryUpdateForm(instance=category)
-
-    context = {
-        'title': 'update category',
-        'form': form
-    }
-    return render(request, 'adminapp/category_update.html', context)
+class ProductCategoryUpdateView(SuperUserOnlyMixin, PageTitleMixin, UpdateView):
+    model = ProductCategory
+    success_url = reverse_lazy('my_admin:categories_list')
+    form_class = AdminProductCategoryUpdateForm
+    page_title = 'update category'
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def category_delete(request, pk):
-    category = get_object_or_404(ProductCategory, pk=pk)
+class CategoryDeleteView(SuperUserOnlyMixin, PageTitleMixin, DeleteView):
+    model = ProductCategory
+    success_url = reverse_lazy('my_admin:categories_list')
+    page_title = 'delete category'
 
-    if request.method == 'POST':
-        category.is_active = False
-        category.save()
-        return HttpResponseRedirect(reverse('my_admin:categories_list'))
-
-    context = {
-        'title': 'delete category',
-        'category_to_delete': category
-    }
-
-    return render(request, 'adminapp/category_delete.html', context)
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @user_passes_test(lambda x: x.is_superuser)
@@ -233,13 +218,6 @@ def product_delete(request, pk):
     return render(request, 'adminapp/product_delete.html', context)
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def product_read(request, pk):
-    obj = get_object_or_404(Product, pk=pk)
-
-    context = {
-        'title': 'product info',
-        'object': obj
-    }
-
-    return render(request, 'adminapp/product_read.html', context)
+class ProductDetail(SuperUserOnlyMixin, PageTitleMixin, DetailView):
+    model = Product
+    page_title = 'product details'

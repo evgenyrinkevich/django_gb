@@ -19,7 +19,6 @@ class Product(models.Model):
     quantity = models.PositiveIntegerField(verbose_name='quantity in stock', default=0)
     is_active = models.BooleanField(verbose_name='active', default=True)
 
-
     def __str__(self):
         return f"{self.name} ({self.category.name})"
 
