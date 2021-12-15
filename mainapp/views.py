@@ -1,5 +1,6 @@
 from random import choice
 
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from django.shortcuts import render, get_object_or_404
 import json
 from .models import ProductCategory, Product
@@ -17,7 +18,7 @@ def index(request):
     hot_offer_pk = choice(Product.objects.filter(is_active=True).values_list('pk', flat=True))
     hot_offer = Product.objects.get(pk=hot_offer_pk)
 
-    same_products = hot_offer.category.product_set.filter(is_active=True).exclude(pk=hot_offer_pk)
+    same_products = hot_offer.category.product_set.filter(is_active=True).exclude(pk=hot_offer_pk)[:3]
     context = {'page_title': 'home',
                'same_products': same_products,
                'basket': get_basket(request),
@@ -38,17 +39,6 @@ def about(request):
     }
 
     return render(request, 'mainapp/about.html', context)
-
-
-def products(request):
-    products_list = Product.objects.filter(is_active=True)
-    context = {'page_title': 'products',
-               'products': products_list,
-               'categories': get_menu(),
-               'basket': get_basket(request)
-               }
-
-    return render(request, 'mainapp/products.html', context)
 
 
 def product_page(request, pk):
@@ -76,12 +66,25 @@ def contact(request):
 
 
 def products_by_category(request, pk=None):
-    category = get_object_or_404(ProductCategory, pk=pk)
-    prods_by_category = category.product_set.filter(is_active=True)
-    context = {'page_title': category.name,
+    if pk == 0:
+        category = {'pk': 0, 'name': 'all'}
+        prods_by_category = Product.objects.filter(is_active=True)
+    else:
+        category = get_object_or_404(ProductCategory, pk=pk)
+        prods_by_category = category.product_set.filter(is_active=True)
+    products_paginator = Paginator(prods_by_category, 2)
+    page = request.GET.get('page')
+    try:
+        prods_by_category = products_paginator.get_page(page)
+    except PageNotAnInteger:
+        prods_by_category = products_paginator.page(1)
+    except EmptyPage:
+        prods_by_category = products_paginator.page(products_paginator.num_pages)
+    context = {'page_title': 'catalog',
                'products': prods_by_category,
                'categories': get_menu(),
-               'basket': get_basket(request)
+               'basket': get_basket(request),
+               'category': category
                }
     return render(request, 'mainapp/products.html', context)
 
