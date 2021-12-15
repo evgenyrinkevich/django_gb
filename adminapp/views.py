@@ -28,24 +28,15 @@ class PageTitleMixin:
 
 class ShopUserList(SuperUserOnlyMixin, PageTitleMixin, ListView):
     model = ShopUser
+    paginate_by = 3
     page_title = 'users'
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def user_create(request):
-    if request.method == 'POST':
-        user_form = AdminShopUserCreateForm(request.POST, request.FILES)
-        if user_form.is_valid():
-            user_form.save()
-            return HttpResponseRedirect(reverse('my_admin:index'))
-    else:
-        user_form = AdminShopUserCreateForm()
-
-    context = {
-        'title': 'create user',
-        'form': user_form}
-
-    return render(request, 'adminapp/user_update.html', context)
+class UserCreateView(SuperUserOnlyMixin, PageTitleMixin, CreateView):
+    model = ShopUser
+    success_url = reverse_lazy('my_admin:index')
+    form_class = AdminShopUserCreateForm
+    page_title = 'create user'
 
 
 @user_passes_test(lambda x: x.is_superuser)
