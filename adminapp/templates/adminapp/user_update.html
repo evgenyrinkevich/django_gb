@@ -1,0 +1,17 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+{% block content %}
+  <div class="container">
+    <form class="form-horizontal" method="post" enctype="multipart/form-data">
+      {% csrf_token %}
+      {{ form.as_p }}
+      <input class="form-control btn btn-danger" type="submit" value="save">
+    </form>
+    <button class="btn btn-light form-control last">
+      <a href="{% url 'my_admin:index' %}">
+        back
+      </a>
+    </button>
+  </div>
+{% endblock %}
