@@ -1063,3 +1063,7 @@ footer .inner-content p a {
 li.category-active > a {
 	color: red;
 }
+
+.product_name {
+	color: grey;
+}

@@ -2,62 +2,63 @@
 {% load static %}
 
 
-
-    {% block content %}
-      <div class="page-heading products-heading header-text">
-        <div class="container">
-          <div class="row">
+{% block content %}
+<div class="page-heading products-heading header-text">
+    <div class="container">
+        <div class="row">
             <div class="col-md-12">
-              <div class="text-content">
-                <h4>new arrivals</h4>
-                <h2>sixteen products</h2>
-              </div>
+                <div class="text-content">
+                    <h4>new arrivals</h4>
+                    <h2>sixteen products</h2>
+                </div>
             </div>
-          </div>
         </div>
-      </div>
+    </div>
+</div>
 
 
-      <div class="products">
-        <div class="container">
-          <div class="row">
+<div class="products">
+    <div class="container">
+        <div class="row">
             <div class="col-md-12">
-              <div class="filters">
-                 {% include 'mainapp/includes/inc__category_menu.html' %}
-              </div>
+                <div class="filters">
+                    {% include 'mainapp/includes/inc__category_menu.html' %}
+                </div>
             </div>
             <div class="col-md-12">
-              <div class="filters-content">
-                  <div class="row grid">
+                <div class="filters-content">
+                    <div class="row grid">
 
-                    {% for item in products %}
-                      <div class="col-lg-4 col-md-4 all des">
-                        <div class="product-item">
-                          <a href="{% url 'basket:add' item.pk %}"><img src="/media/{{ item.image }}" alt=""></a>
-                          <div class="down-content">
-                            <a href="#"><h4>{{ item.name|title }}</h4></a>
-                            <h6>${{ item.price }}</h6>
-                            <p>{{ item.description }}</p>
-                            {% include 'mainapp/includes/inc__stars.html' %}
-                          </div>
+                        {% for item in products %}
+                        <div class="col-lg-4 col-md-4 all des">
+                            <div class="product-item">
+                                <a href="{% url 'main:product_page' item.pk %}">
+                                    <img src="/media/{{ item.image }}" alt="">
+                                </a>
+                                <div class="down-content">
+                                    <a href="#"><h4>{{ item.name|title }}</h4></a>
+                                    <h6>${{ item.price }}</h6>
+                                    <p>{{ item.description }}</p>
+                                    {% include 'mainapp/includes/inc__stars.html' %}
+                                </div>
+                            </div>
                         </div>
-                      </div>
                     {% endfor %}
-
-                  </div>
-              </div>
+                    </div>
+                </div>
             </div>
-            <div class="col-md-12">
-              <ul class="pages">
+        </div>
+        <div class="col-md-12">
+            <ul class="pages">
                 <li><a href="#">1</a></li>
                 <li class="active"><a href="#">2</a></li>
                 <li><a href="#">3</a></li>
                 <li><a href="#">4</a></li>
                 <li><a href="#"><i class="fa fa-angle-double-right"></i></a></li>
-              </ul>
-            </div>
-          </div>
+            </ul>
         </div>
-      </div>
-    {% endblock %}
+    </div>
+</div>
+</div>
+{% endblock %}
 
