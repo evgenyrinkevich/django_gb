@@ -1,13 +1,13 @@
 {% load static %}
 
 <ul>
-    <li class="{% if request.resolver_match.url_name == 'products' %}active {% endif %}">
+    <li class="{% if request.resolver_match.url_name == 'products' %}category-active {% endif %}">
         <a href="{% url 'main:products' %}">
             All Products
         </a>
     </li>
     {% for item in categories %}
-        <li {% if request.resolver_match.kwargs.pk == item.pk %}class="active" {% endif %}>
+        <li class="nav-item{% if request.resolver_match.kwargs.pk == item.pk %} category-active{% endif %}">
             <a class="nav-link" href="{% url 'main:category' item.id %}">{{ item.name }}</a>
         </li>
     {% endfor %}

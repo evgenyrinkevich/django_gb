@@ -1,4 +1,4 @@
-from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm, PasswordChangeForm
 import django.forms as forms
 from django.core.exceptions import ValidationError
 
@@ -70,3 +70,18 @@ class ShopUserEditForm(UserChangeForm):
             raise ValidationError('First name should be latin characters')
         return data
 
+
+class ShopUserChangePasswordForm(PasswordChangeForm):
+    class Meta:
+        model = ShopUser
+        fields = (
+            'old_password',
+            'new_password1',
+            'new_password2',
+        )
+
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        for field_name, field in self.fields.items():
+            field.widget.attrs['class'] = f'form-control {field_name}'
+            field.help_text = ''

@@ -1,9 +1,10 @@
 from django.contrib import auth
+from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 
-from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm
+from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm, ShopUserChangePasswordForm
 
 
 def login(request):
@@ -59,3 +60,19 @@ def edit(request):
         'form': form
     }
     return render(request, 'authapp/edit.html', context)
+
+
+def change_password(request):
+    if request.method == 'POST':
+        form = ShopUserChangePasswordForm(data=request.POST, user=request.user)
+        if form.is_valid():
+            form.save()
+            update_session_auth_hash(request, form.user)
+            return HttpResponseRedirect(reverse('main:index'))
+    else:
+        form = ShopUserChangePasswordForm(user=request.user)
+    context = {
+        'title': 'change password',
+        'form': form
+    }
+    return render(request, 'authapp/change_password.html', context)
