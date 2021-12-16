@@ -26,6 +26,13 @@ class PageTitleMixin:
         return context
 
 
+class ProductGetSuccessUrlMixin:
+    def get_success_url(self):
+        return reverse('my_admin:category_products', kwargs={
+            'pk': self.object.category.pk
+        })
+
+
 class ShopUserList(SuperUserOnlyMixin, PageTitleMixin, ListView):
     model = ShopUser
     paginate_by = 3
@@ -39,39 +46,23 @@ class UserCreateView(SuperUserOnlyMixin, PageTitleMixin, CreateView):
     page_title = 'create user'
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def user_update(request, pk):
-    user = get_object_or_404(ShopUser, pk=pk)
-    if request.method == 'POST':
-        user_form = AdminShopUserUpdateForm(request.POST, request.FILES, instance=user)
-        if user_form.is_valid():
-            user_form.save()
-            return HttpResponseRedirect(reverse('my_admin:index'))
-    else:
-        user_form = AdminShopUserUpdateForm(instance=user)
-
-    context = {
-        'title': 'update user',
-        'form': user_form}
-
-    return render(request, 'adminapp/user_update.html', context)
+class UserUpdateView(SuperUserOnlyMixin, PageTitleMixin, UpdateView):
+    model = ShopUser
+    success_url = reverse_lazy('my_admin:index')
+    form_class = AdminShopUserUpdateForm
+    page_title = 'edit user'
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def user_delete(request, pk):
-    user = get_object_or_404(ShopUser, pk=pk)
+class UserDeleteView(SuperUserOnlyMixin, PageTitleMixin, DeleteView):
+    model = ShopUser
+    success_url = reverse_lazy('my_admin:index')
+    page_title = 'delete user'
 
-    if request.method == 'POST':
-        user.is_active = False
-        user.save()
-        return HttpResponseRedirect(reverse('my_admin:index'))
-
-    context = {
-        'title': 'delete user',
-        'user_to_delete': user
-    }
-
-    return render(request, 'adminapp/user_delete.html', context)
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
 
 
 @user_passes_test(lambda x: x.is_superuser)
@@ -89,15 +80,9 @@ def user_restore(request, pk):
     return render(request, 'adminapp/index.html', context)
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def categories_list(request):
-    categories = ProductCategory.objects.all()
-    context = {
-        'title': 'admin/categories',
-        'object_list': categories
-    }
-
-    return render(request, 'adminapp/categories_list.html', context)
+class CategoriesListView(SuperUserOnlyMixin, PageTitleMixin, ListView):
+    model = ProductCategory
+    page_title = 'categories list'
 
 
 class ProductCategoryCreateView(SuperUserOnlyMixin, PageTitleMixin, CreateView):
@@ -135,80 +120,55 @@ def category_restore(request, pk):
     return HttpResponseRedirect(reverse('my_admin:categories_list'))
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def category_products(request, pk):
-    category = get_object_or_404(ProductCategory, pk=pk)
-    objects = category.product_set.all()
+class CategoryProductsListView(SuperUserOnlyMixin, PageTitleMixin, ListView):
+    model = Product
+    page_title = 'category products'
 
-    context = {
-        'title': f'products from {category.name} category',
-        'category': category,
-        'object_list': objects
-    }
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cat_id'] = self.kwargs['pk']
+        return context
 
-    return render(request, 'adminapp/category_products.html', context)
-
-
-@user_passes_test(lambda x: x.is_superuser)
-def product_create(request, category_pk):
-    category = get_object_or_404(ProductCategory, pk=category_pk)
-    if request.method == 'POST':
-        form = AdminProductUpdateForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('my_admin:category_products', kwargs={
-                'pk': category.pk
-            }))
-    else:
-        form = AdminProductUpdateForm(initial={'category': category})
-
-    context = {
-        'title': 'create product',
-        'form': form,
-        'category': category
-    }
-    return render(request, 'adminapp/product_update.html', context)
+    def get_queryset(self):
+        return Product.objects.filter(category=self.kwargs['pk'])
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def product_update(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    if request.method == 'POST':
-        form = AdminProductUpdateForm(request.POST, request.FILES, instance=product)
-        if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('my_admin:category_products', kwargs={
-                'pk': product.category.pk
-            }))
-    else:
-        form = AdminProductUpdateForm(instance=product)
+class ProductCreateView(SuperUserOnlyMixin, PageTitleMixin, ProductGetSuccessUrlMixin, CreateView):
+    model = Product
+    form_class = AdminProductUpdateForm
+    page_title = 'create product'
 
-    context = {
-        'title': 'edit product',
-        'form': form,
-        'category': product.category
-    }
-    return render(request, 'adminapp/product_update.html', context)
+    def get_initial(self):
+        return {'category': ProductCategory.objects.get(pk=self.kwargs['category_pk'])}
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cat_id'] = self.kwargs['category_pk']
+        return context
 
 
-@user_passes_test(lambda x: x.is_superuser)
-def product_delete(request, pk):
-    obj = get_object_or_404(Product, pk=pk)
+class ProductUpdateView(SuperUserOnlyMixin, PageTitleMixin, ProductGetSuccessUrlMixin, UpdateView):
+    model = Product
+    form_class = AdminProductUpdateForm
+    page_title = 'update product'
 
-    if request.method == 'POST':
-        obj.is_active = False
-        obj.save()
-        return HttpResponseRedirect(reverse('my_admin:category_products', kwargs={
-            'pk': obj.category.pk
-        }))
-    context = {
-        'title': 'delete product',
-        'object': obj
-    }
-
-    return render(request, 'adminapp/product_delete.html', context)
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['cat_id'] = self.kwargs['pk']
+        return context
 
 
-class ProductDetail(SuperUserOnlyMixin, PageTitleMixin, DetailView):
+class ProductDeleteView(SuperUserOnlyMixin, PageTitleMixin, ProductGetSuccessUrlMixin, DeleteView):
+    model = Product
+    page_title = 'delete product'
+
+    def delete(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        self.object.is_active = False
+        self.object.save()
+        return HttpResponseRedirect(self.get_success_url())
+
+
+class ProductDetailView(SuperUserOnlyMixin, PageTitleMixin, DetailView):
     model = Product
     page_title = 'product details'
