@@ -1,5 +1,6 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 
 {% block content %}
@@ -19,7 +20,7 @@
 
 <div class="products">
     <div class="container">
-        <div class="row">
+        <div class="row justify-content-center">
             <div class="col-md-12">
                 <div class="filters">
                     {% include 'mainapp/includes/inc__category_menu.html' %}
@@ -48,11 +49,11 @@
                         <div class="col-lg-4 col-md-4 all des">
                             <div class="product-item">
                                 <a href="{% url 'main:product_page' item.pk %}">
-                                    <img src="/media/{{ item.image }}" alt="">
+                                    <img src="{{ item.image|media_folder_products }}" alt="">
                                 </a>
                                 <div class="down-content">
                                     <a href="#"><h4>{{ item.name|title }}</h4></a>
-                                    <h6>${{ item.price }}</h6>
+                                    <h6><br>${{ item.price }}</h6>
                                     <p>{{ item.description }}</p>
                                     {% include 'mainapp/includes/inc__stars.html' %}
                                 </div>

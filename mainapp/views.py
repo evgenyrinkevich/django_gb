@@ -72,7 +72,7 @@ def products_by_category(request, pk=None):
     else:
         category = get_object_or_404(ProductCategory, pk=pk)
         prods_by_category = category.product_set.filter(is_active=True)
-    products_paginator = Paginator(prods_by_category, 2)
+    products_paginator = Paginator(prods_by_category, 3)
     page = request.GET.get('page')
     try:
         prods_by_category = products_paginator.get_page(page)

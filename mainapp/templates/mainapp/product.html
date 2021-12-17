@@ -1,5 +1,6 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 
 {% block content %}
@@ -23,7 +24,7 @@
             <div class="col-md-6">
 
                 <div class="product-item ">
-                    <img src="/media/{{ product.image }}" alt="">
+                    <img src="{{ product.image|media_folder_products }}" alt="">
                     <div class="down-content">
                         <h4>{{ product.name|title }}</h4>
                         <h6>${{ product.price }}</h6>
