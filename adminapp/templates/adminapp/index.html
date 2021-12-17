@@ -1,0 +1,65 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+{% load my_tags %}
+
+{% block content %}
+<div class="users_list">
+    <button class="btn btn-light new_user">
+        <a href="{% url 'my_admin:user_create' %}">
+        new user
+        </a>
+    </button>
+    {% for object in object_list %}
+    <div class="row user_record {% if not object.is_active %}not_active{% endif %}">
+        <img src="{{ object.avatar|media_folder_users }}" alt="{{ object.username }}">
+        <div class="user_role px-2">
+            {% if object.is_superuser %}
+            administrator
+            {% else %}
+            user
+            {% endif %}
+            <br>
+            <button class="btn btn-light">
+                <a href="{% url 'my_admin:user_update' object.pk %}">
+                edit
+                </a>
+            </button>
+            <button class="btn btn-light user_status">
+                {% if object.is_active %}
+                    <a href="{% url 'my_admin:user_delete' object.pk %}">
+                    delete
+                    </a>
+                {% else %}
+                    <a href="{% url 'my_admin:user_restore' object.pk %}">
+                    restore
+                    </a>
+                {% endif %}
+            </button>
+        </div>
+        <div class="user_name  px-2">
+            <p><strong>{{ object.username }}</strong></p>
+            <p><br>
+                {% if object.first_name %}
+                <b>{{ object.first_name|title }}</b>
+                {% if object.last_name %}
+                <p>{{ object.last_name|title }}</p>
+                {% endif %}
+                {% endif %}
+            </p>
+        </div>
+        <div class="user_age  px-2">
+            age:<br>
+            {{ object.age }} y.o.
+        </div>
+        <div class="user_email  px-2">
+            email:<br>
+            {{ object.email }}
+        </div>
+        <div class="user_lastlogin  px-2">
+            logged:<br>
+            {{ object.last_login }}
+        </div>
+    </div>
+    {% endfor%}
+</div>
+{% endblock %}

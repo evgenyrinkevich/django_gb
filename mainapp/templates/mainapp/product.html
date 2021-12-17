@@ -1,48 +1,48 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 
-
-    {% block content %}
-      <div class="page-heading products-heading header-text">
-        <div class="container">
-          <div class="row">
-            <div class="col-md-12">
-              <div class="text-content">
-                <h4>premium outfit</h4>
-                <h2>sixteen products</h2>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-
-
-    <div class="products">
-      <div class="container">
+{% block content %}
+<div class="page-heading products-heading header-text">
+    <div class="container">
         <div class="row">
-          <div class="col-md-6">
+            <div class="col-md-12">
+                <div class="text-content">
+                    <h4>premium outfit</h4>
+                    <h2>sixteen products</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 
-                  <div class="product-item ">
-                    <img src="/media/{{ product.image }}" alt="">
+
+<div class="products">
+    <div class="container">
+        <div class="row">
+            <div class="col-md-6">
+
+                <div class="product-item ">
+                    <img src="{{ product.image|media_folder_products }}" alt="">
                     <div class="down-content">
-                      <h4>{{ product.name|title }}</h4>
-                      <h6>${{ product.price }}</h6>
-                      <p>{{ product.description }}</p>
-                      {% include 'mainapp/includes/inc__stars.html' %}
-                      <!--                    <span>{{ item.reviews }}</span>-->
-                      <a href="{% url 'basket:add' product.pk %}" class="btn btn-outline-success">
-                        Add to cart
-                        <i class="fa fa-chevron-right" aria-hidden="true"></i>
-                      </a>
+                        <h4>{{ product.name|title }}</h4>
+                        <h6>${{ product.price }}</h6>
+                        <p>{{ product.description }}</p>
+                        {% include 'mainapp/includes/inc__stars.html' %}
+                        <!--                    <span>{{ item.reviews }}</span>-->
+                        <a href="{% url 'basket:add' product.pk %}" class="btn btn-outline-success">
+                            Add to cart
+                            <i class="fa fa-chevron-right" aria-hidden="true"></i>
+                        </a>
                     </div>
-                  </div>
+                </div>
 
+
+            </div>
 
         </div>
-
-      </div>
     </div>
-
+</div>
     {% endblock %}
 

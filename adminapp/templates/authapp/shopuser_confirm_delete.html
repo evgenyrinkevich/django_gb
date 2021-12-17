@@ -1,0 +1,30 @@
+{% extends 'adminapp/base.html' %}
+{% load static %}
+
+
+{% block content %}
+<div class="container">
+  <div class="user_delete">
+    Delete {{ object.username }}<br>
+    {% if object.first_name %}
+      ({{ object.first_name|title }}
+      {% if object.last_name %}
+        {{ object.last_name|title }}
+      {% endif %})
+    {% endif %}
+    ?
+    <div class="row">
+    <form action="{% url 'my_admin:user_delete' object.pk %}"
+          method="post">
+      {% csrf_token %}
+      <input class="btn btn-danger" type="submit" value="delete">
+    </form>
+    <button class="btn btn-success">
+      <a href="{% url 'my_admin:index' %}">
+        Cancel
+      </a>
+    </button>
+    </div>
+  </div>
+</div>
+{% endblock %}

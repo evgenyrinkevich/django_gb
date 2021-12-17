@@ -1,8 +1,8 @@
 {% load static %}
 
 <ul>
-    <li class="{% if request.resolver_match.url_name == 'products' %}category-active {% endif %}">
-        <a href="{% url 'main:products' %}">
+    <li class="{% if request.resolver_match.kwargs.pk == '0' %}category-active {% endif %}">
+        <a href="{% url 'main:category' 0 %}">
             All Products
         </a>
     </li>
