@@ -1,13 +1,23 @@
 from django.contrib.auth.decorators import login_required, user_passes_test
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.http import HttpResponseRedirect, JsonResponse
 from django.shortcuts import render, get_object_or_404
 from django.template.loader import render_to_string
 from django.urls import reverse
 from django.utils.decorators import method_decorator
-from django.views.generic import DetailView
+from django.views.generic import DetailView, ListView
 
 from basketapp.models import Basket
 from mainapp.models import Product
+
+
+class PageTitleMixin:
+    page_title = ''
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.page_title
+        return context
 
 
 @login_required
@@ -18,6 +28,13 @@ def index(request):
         'basket': request.user.basket.all()
     }
     return render(request, 'basketapp/index.html', context)
+
+
+# class BasketListView(LoginRequiredMixin, PageTitleMixin, ListView):
+#     model = Basket
+#     template_name = 'basketapp/index.html'
+#     # paginate_by = 3
+#     page_title = 'basket'
 
 
 @login_required

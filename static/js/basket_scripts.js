@@ -6,5 +6,15 @@ window.onload = function () {
                 $('.basket-list').html(data.result)
             }
         });
-    })
+    });
+
+    // $('.add_to_cart').click(function (event) {
+    //     $.ajax({
+    //         url: '/basket/add/' + event.target.name + '/',
+    //         success: function (data) {
+    //             alert('Item added');
+    //             console.log(event.target);
+    //         }
+    //     });
+    // })
 };

@@ -3,8 +3,18 @@ from django.contrib.auth import update_session_auth_hash
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
+from django.views import View
 
 from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm, ShopUserChangePasswordForm
+
+
+class PageTitleMixin:
+    page_title = ''
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['title'] = self.page_title
+        return context
 
 
 def login(request):
@@ -33,36 +43,10 @@ def login(request):
     return render(request, 'authapp/login.html', context)
 
 
-# def login(request):
-#
-#     if request.method == 'POST':
-#         form = ShopUserLoginForm(data=request.POST or None)
-#         next_info = request.GET['next'] if 'next' in request.GET.keys() else ''
-#
-#         if request.method == 'POST' and form.is_valid():
-#             username = request.POST['username']
-#             password = request.POST['password']
-#
-#             user = auth.authenticate(username=username, password=password)
-#             if user and user.is_active:
-#                 auth.login(request, user)
-#                 if 'next' in request.POST.keys():
-#                     return HttpResponseRedirect(request.POST['next'])
-#                 else:
-#                     return HttpResponseRedirect(reverse('main:index'))
-#     else:
-#         form = ShopUserLoginForm()
-#     context = {
-#         'title': 'login',
-#         'form': form,
-#         'next': next_info
-#     }
-#     return render(request, 'authapp/login.html', context)
-
-
-def logout(request):
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('main:index'))
+class LogoutView(View):
+    def get(self, request):
+        auth.logout(request)
+        return HttpResponseRedirect(reverse('main:index'))
 
 
 def register(request):

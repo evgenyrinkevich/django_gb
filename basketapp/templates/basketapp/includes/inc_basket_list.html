@@ -1,8 +1,8 @@
 {% if basket %}
-<div class="basket-list">
-    <div class="row">
+<div class="basket-list col-md-12">
+    <div class="row grid">
     {% for item in basket %}
-      <div class="col">
+      <div class="col-lg-4 col-md-4 all des">
           <div class="product-item">
               <span>{{ item.product.name }}</span>
               <div class="product_name">({{ item.product.category.name }})</div>

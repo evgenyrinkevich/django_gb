@@ -68,7 +68,7 @@ def contact(request):
 def products_by_category(request, pk=None):
     if pk == 0:
         category = {'pk': 0, 'name': 'all'}
-        prods_by_category = Product.objects.filter(is_active=True)
+        prods_by_category = Product.objects.filter(is_active=True).order_by('?')
     else:
         category = get_object_or_404(ProductCategory, pk=pk)
         prods_by_category = category.product_set.filter(is_active=True)

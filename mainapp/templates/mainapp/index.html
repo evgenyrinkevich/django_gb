@@ -1,5 +1,6 @@
 {% extends 'mainapp/base.html' %}
 {% load static %}
+{% load my_tags %}
 
 
 
@@ -41,14 +42,13 @@
             <div class="col-md-4">
               <div class="product-item">
                 <a href="{% url 'main:product_page' hot_offer.pk %}">
-                  <img src="/media/{{ hot_offer.image }}" alt="{{ hot_offer.name }}">
+                  <img src="{{ hot_offer.image|media_folder_products }}" alt="{{ hot_offer.name }}">
                 </a>
                 <div class="down-content">
                   <a href="#"><h4>{{ hot_offer.name|title }}</h4></a>
-                  <h6>${{ hot_offer.price }}</h6>
+                  <h6><br>${{ hot_offer.price }}</h6>
                   <p>{{ hot_offer.description }}</p>
                   {% include 'mainapp/includes/inc__stars.html' %}
-                  <!--                    <span>{{ item.reviews }}</span>-->
                 </div>
               </div>
             </div>
@@ -61,14 +61,13 @@
               <div class="col-md-4">
                 <div class="product-item">
                   <a href="{% url 'main:product_page' item.pk %}">
-                    <img src="/media/{{ item.image }}" alt="{{ item.name }}">
+                    <img src="{{ item.image|media_folder_products }}" alt="{{ item.name }}">
                   </a>
                   <div class="down-content">
                     <a href="#"><h4>{{ item.name|title }}</h4></a>
-                    <h6>${{ item.price }}</h6>
+                    <h6><br>${{ item.price }}</h6>
                     <p>{{ item.description }}</p>
                     {% include 'mainapp/includes/inc__stars.html' %}
-<!--                    <span>{{ item.reviews }}</span>-->
                   </div>
                 </div>
               </div>
