@@ -1,11 +1,12 @@
 from django.contrib import auth
-from django.contrib.auth import update_session_auth_hash
+from django.contrib.auth import update_session_auth_hash, get_user_model
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse
 from django.views import View
 
 from authapp.forms import ShopUserLoginForm, ShopUserRegisterForm, ShopUserEditForm, ShopUserChangePasswordForm
+from authapp.models import ShopUser
 
 
 class PageTitleMixin:
@@ -54,8 +55,6 @@ def register(request):
         form = ShopUserRegisterForm(request.POST, request.FILES)
         if form.is_valid():
             user = form.save()
-            user.is_active = False
-            user.save()
             if user.send_verify_mail() == 0:
                 return HttpResponseRedirect(reverse('auth:register'))
             return HttpResponseRedirect(reverse('main:index'))
@@ -97,3 +96,19 @@ def change_password(request):
         'form': form
     }
     return render(request, 'authapp/change_password.html', context)
+
+
+def verify(request, email, activation_key):
+    try:
+        user = get_user_model().objects.get(email=email)
+        if user.activation_key == activation_key and not user.is_activation_key_expired():
+            user.is_active = True
+            user.save()
+            auth.login(request, user)
+            return render(request, 'authapp/verification.html')
+        else:
+            print(f'error activation user: {user}')
+            return HttpResponseRedirect(reverse('auth:register'))
+    except Exception as e:
+        print(f'error activation user : {e.args}')
+        return HttpResponseRedirect(reverse('main:index'))

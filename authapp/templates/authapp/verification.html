@@ -1,0 +1,14 @@
+{% extends 'authapp/base.html' %}
+{% load static %}
+
+{% block container %}
+  {% if user.is_authenticated %}
+    <h3>Congrats!</h3>
+    <br>
+    <h4>User {{ user.username }} confirmed</h4>
+  {% else %}
+    <h3>Verification failed</h3>
+  {% endif %}
+  <br>
+    <a href="{% url 'main:index' %}" class="btn btn-round form-control">to main page</a>
+{% endblock %}
