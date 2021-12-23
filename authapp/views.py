@@ -53,8 +53,12 @@ def register(request):
     if request.method == 'POST':
         form = ShopUserRegisterForm(request.POST, request.FILES)
         if form.is_valid():
-            form.save()
-            return HttpResponseRedirect(reverse('auth:login'))
+            user = form.save()
+            user.is_active = False
+            user.save()
+            if user.send_verify_mail() == 0:
+                return HttpResponseRedirect(reverse('auth:register'))
+            return HttpResponseRedirect(reverse('main:index'))
     else:
         form = ShopUserRegisterForm()
     context = {

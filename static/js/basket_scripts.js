@@ -11,6 +11,7 @@ window.onload = function () {
     // $('.add_to_cart').click(function (event) {
     //     $.ajax({
     //         url: '/basket/add/' + event.target.name + '/',
+    //         type: 'POST',
     //         success: function (data) {
     //             alert('Item added');
     //             console.log(event.target);
