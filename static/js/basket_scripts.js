@@ -8,14 +8,15 @@ window.onload = function () {
         });
     });
 
-    // $('.add_to_cart').click(function (event) {
-    //     $.ajax({
-    //         url: '/basket/add/' + event.target.name + '/',
-    //         type: 'POST',
-    //         success: function (data) {
-    //             alert('Item added');
-    //             console.log(event.target);
-    //         }
-    //     });
-    // })
+//     $('.add_to_cart').click(function (event) {
+//         console.log(event.target.name);
+//         $.ajax({
+//             url: '/basket/add/' + event.target.name + '/',
+//             type: 'POST',
+//             success: function (data) {
+//                 alert('Item added');
+//                 $('.basket').html(data.result)
+//             }
+//         });
+     })
 };

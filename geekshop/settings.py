@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/3.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/3.2/ref/settings/
 """
+import json
 import os
 from pathlib import Path
 
@@ -25,7 +26,7 @@ SECRET_KEY = 'django-insecure-et4%^c9d0sd44+izb3q60$t*qxz20n4*e(5z%0mwx938zx-n&2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -41,6 +42,7 @@ INSTALLED_APPS = [
     'authapp',
     'basketapp',
     'adminapp',
+    'social_django',
 ]
 
 MIDDLEWARE = [
@@ -68,6 +70,8 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'mainapp.context_processors.get_menu',
+                'mainapp.context_processors.get_basket',
             ],
         },
     },
@@ -151,8 +155,8 @@ EMAIL_PORT = '25'
 EMAIL_HOST_USER = 'django@geekshop.local'
 EMAIL_HOST_PASSWORD = 'geekshop'
 EMAIL_USE_SSL = False
-# EMAIL_USE_TSL = True
 
+# EMAIL_USE_TSL = True
 
 # вариант python -m smtpd -n -c DebuggingServer localhost:25
 # EMAIL_HOST_USER, EMAIL_HOST_PASSWORD = None, None
@@ -161,4 +165,32 @@ EMAIL_USE_SSL = False
 EMAIL_BACKEND = 'django.core.mail.backends.filebased.EmailBackend'
 EMAIL_FILE_PATH = 'tmp/email-messages/'
 
+
 ACTIVATION_KEY_TTL = 48
+
+
+# Social authentication
+
+LOGIN_ERROR_URL = '/'
+
+AUTHENTICATION_BACKENDS = (
+    'django.contrib.auth.backends.ModelBackend',
+    'social_core.backends.vk.VKOAuth2',
+)
+
+SOCIAL_SECRETS_FILE = 'geekshop/social_auth.json'
+SOCIAL = {}
+if os.path.exists(SOCIAL_SECRETS_FILE):
+    with open('geekshop/social_auth.json', 'r') as f:
+        SOCIAL = json.load(f)
+
+# SOCIAL_AUTH_VK_OAUTH2_KEY = os.environ.setdefault('SOCIAL_AUTH_VK_OAUTH2_KEY', VK['SOCIAL_AUTH_VK_OAUTH2_KEY'])
+SOCIAL_AUTH_VK_OAUTH2_KEY = SOCIAL.get('SOCIAL_AUTH_VK_OAUTH2_KEY', '')
+SOCIAL_AUTH_VK_OAUTH2_SECRET = SOCIAL.get('SOCIAL_AUTH_VK_OAUTH2_SECRET', '')
+
+SOCIAL_AUTH_VK_OAUTH2_IGNORE_DEFAULT_SCOPE = True
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = [
+    'email', 'bdate', 'sex', 'about'
+]
+
+SOCIAL_AUTH_VK_APP_USER_MODE = 2

@@ -16,11 +16,9 @@ from geekshop.settings import ACTIVATION_KEY_TTL
 
 
 class ShopUser(AbstractUser):
-    age = models.PositiveIntegerField(null=True)
+    age = models.PositiveIntegerField(null=True, default=18)
     avatar = models.ImageField(upload_to='users_avatar', blank=True)
     activation_key = models.CharField(max_length=128, blank=True)
-
-    # activation_key_expires = models.DateTimeField(default=calc_activation_key_expires)
 
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
@@ -32,7 +30,6 @@ class ShopUser(AbstractUser):
                 img.save(self.avatar.path)
 
     def send_verify_mail(self):
-        # verify_link = '<verify_link>'
         verify_link = reverse('auth:verify', kwargs={'email': self.email,
                                                      'activation_key': self.activation_key})
 

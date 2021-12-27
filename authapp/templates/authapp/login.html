@@ -17,4 +17,7 @@
     <a href="{% url 'auth:register' %}" class="btn btn-round form-control">
         Register
     </a>
+    <a href="{% url 'social:begin' 'vk-oauth2' %}?next=/" class="btn btn-round form-control">
+     VK authorization
+    </a>
 {% endblock %}

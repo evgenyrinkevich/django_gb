@@ -36,7 +36,6 @@ def index(request):
 #     # paginate_by = 3
 #     page_title = 'basket'
 
-
 @login_required
 def add(request, pk):
     if 'login' in request.META.get('HTTP_REFERER'):

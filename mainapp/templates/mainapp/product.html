@@ -31,7 +31,7 @@
                         <p>{{ product.description }}</p>
                         {% include 'mainapp/includes/inc__stars.html' %}
                         <!--                    <span>{{ item.reviews }}</span>-->
-                        <a href="{% url 'basket:add' product.pk %}" class="btn btn-outline-success add_to_cart">
+                        <a href="{% url 'basket:add' product.pk %}" class="btn btn-outline-success add_to_cart" name="{{ product.pk }}">
                             Add to cart
                             <i class="fa fa-chevron-right" aria-hidden="true"></i>
                         </a>
