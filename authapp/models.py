@@ -11,10 +11,6 @@ from django.utils.timezone import now
 from geekshop.settings import ACTIVATION_KEY_TTL
 
 
-# def calc_activation_key_expires():
-#     return now() + timedelta(hours=ACTIVATION_KEY_TTL)
-
-
 class ShopUser(AbstractUser):
     age = models.PositiveIntegerField(null=True, default=18)
     avatar = models.ImageField(upload_to='users_avatar', blank=True)
@@ -41,3 +37,18 @@ class ShopUser(AbstractUser):
 
     def is_activation_key_expired(self):
         return now() - self.date_joined > timedelta(hours=ACTIVATION_KEY_TTL)
+
+
+class ShopUserProfile(models.Model):
+    MALE = 'M'
+    FEMALE = 'W'
+
+    GENDER_CHOICES = (
+        (MALE, 'male'),
+        (FEMALE, 'female'),
+    )
+
+    user = models.OneToOneField(ShopUser, primary_key=True, on_delete=models.CASCADE)
+    tagline = models.CharField(verbose_name='tags', max_length=128, blank=True)
+    about_me = models.TextField(max_length=512, blank=True)
+    gender = models.CharField(max_length=1, choices=GENDER_CHOICES, blank=True)
