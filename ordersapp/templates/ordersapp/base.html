@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+
+  <head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="">
+    <meta name="author" content="">
+    <link href="https://fonts.googleapis.com/css?family=Poppins:100,200,300,400,500,600,700,800,900&display=swap" rel="stylesheet">
+
+        <title>
+      {% block title %}
+
+        {{ page_title|title }}
+
+      {% endblock %}
+        </title>
+
+
+    {% block css %}
+      <!-- Bootstrap core CSS -->
+      <link href="{% static 'bootstrap/css/bootstrap.min.css' %}" rel="stylesheet">
+
+
+      <!-- Additional CSS Files -->
+      <link rel="stylesheet" href="{% static 'css/fontawesome.css' %}">
+      <link rel="stylesheet" href="{% static 'css/templatemo-sixteen.css' %}">
+      <link rel="stylesheet" href="{% static 'css/owl.css' %}">
+    {% endblock %}
+
+  </head>
+
+  <body>
+
+    <!-- ***** Preloader Start ***** -->
+    <div id="preloader">
+        <div class="jumper">
+            <div></div>
+            <div></div>
+            <div></div>
+        </div>
+    </div>
+    <!-- ***** Preloader End ***** -->
+
+    <!-- Header -->
+    <header class="">
+      <nav class="navbar navbar-expand-lg">
+        <div class="container">
+          <a class="navbar-brand" href="{% url 'main:index' %}"><h2>Sixteen <em>Clothing</em></h2></a>
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarResponsive" aria-controls="navbarResponsive" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+          <div class="collapse navbar-collapse" id="navbarResponsive">
+            {% block menu %}
+              {% include 'mainapp/includes/inc__main_menu.html' %}
+            {% endblock %}
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Page Content -->
+        <div class="section-heading">
+            <h2>Your shopping cart,
+                {{ user.first_name|default:'user'|title }}
+            </h2>
+        </div>
+
+
+    {% block content %}
+
+    {% endblock %}
+
+    {% block footer %}
+      <footer>
+        <div class="container">
+          <div class="row">
+            <div class="col-md-12">
+              <div class="inner-content">
+                <p>Evgeny Rinkevich© {% now "Y" %}
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    {% endblock %}
+
+
+    {% block js %}
+      <!-- Bootstrap core JavaScript -->
+
+      <script src="{% static 'jquery/jquery.min.js' %}"></script>
+      <script src="{% static 'bootstrap/js/bootstrap.bundle.min.js' %}"></script>
+      <script src="{% static 'js/basket_scripts.js' %}"></script>
+
+
+      <!-- Additional Scripts -->
+      <script src="{% static 'js/custom.js' %}"></script>
+      <script src="{% static 'js/owl.js' %}"></script>
+      <script src="{% static 'js/slick.js' %}"></script>
+      <script src="{% static 'js/isotope.js' %}"></script>
+      <script src="{% static 'js/accordions.js' %}"></script>
+
+    {% endblock %}
+
+
+  </body>
+
+</html>

@@ -1,0 +1,64 @@
+{% extends 'ordersapp/base.html' %}
+{% load static %}
+
+{% block content %}
+    {% if not object_list %}
+        <div class="h2 text-center head">
+            No orders yet
+        </div>
+    {% else %}
+        <div class="h2 text-center head">
+            Your orders, {{ user.first_name|default:'user'|title }}
+        </div>
+        <table class="table orders_list">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Created</th>
+                <th>Updated</th>
+                <th>Status</th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for item in object_list %}
+                <tr>
+                    <td class="td1 orders_list">{{ item.pk }}</td>
+                    <td>{{ item.created|date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ item.updated|date:"Y-m-d H:i:s" }}</td>
+                    <td>{{ item.get_status_display }}</td>
+                    <td>
+                        <a href="{#% url 'orders:order_read' item.pk %#}">
+                            more
+                        </a>
+                    </td>
+                    <td>
+                        {% if item.is_forming %}
+                            <a href="{#% url 'orders:order_update' pk=item.pk %#}">
+                                edit
+                            </a>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if item.is_forming %}
+                            <a href="{#% url 'orders:order_delete' item.pk %#}">
+                                delete
+                            </a>
+                        {% endif %}
+                    </td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    {% endif %}
+
+    <a href="{% url 'main:index' %}"
+       class="btn btn-default btn-round">
+        to main page
+    </a>
+
+    <a href="{#% url 'orders:order_create' %#}"
+       class="btn btn-default btn-round">
+        new
+    </a>
+
+{% endblock %}
