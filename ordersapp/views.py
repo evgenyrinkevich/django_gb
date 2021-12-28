@@ -13,6 +13,11 @@ class OrderList(ListView):
     def get_queryset(self):
         return Order.objects.filter(user=self.request.user)
 
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['page_title'] = 'orders'
+        return context
+
 
 class OrderCreate(CreateView):
     model = Order
@@ -34,16 +39,14 @@ class OrderCreate(CreateView):
                     Order, OrderItem, form=OrderItemForm, extra=len(basket_items) + 1
                 )
                 formset = OrderFormSet()
-                # for num, form in enumerate(formset.forms):
-                # zip(), filter(), map()
                 for form, basket_item in zip(formset.forms, basket_items):
                     form.initial['product'] = basket_item.product
                     form.initial['quantity'] = basket_item.quantity
-                # basket_items.delete()
             else:
                 formset = OrderFormSet()
 
         data['orderitems'] = formset
+        data['page_title'] = 'create order'
         return data
 
     def form_valid(self, form):
@@ -57,7 +60,7 @@ class OrderCreate(CreateView):
                 orderitems.save()
             self.request.user.basket.all().delete()
 
-        # удаляем пустой заказ
+        # delete empty order
         if self.object.total_cost == 0:
             self.object.delete()
 
@@ -95,7 +98,7 @@ class OrderUpdate(UpdateView):
                 orderitems.instance = self.object
                 orderitems.save()
 
-        # удаляем пустой заказ
+        # delete empty order
         if self.object.total_cost == 0:
             self.object.delete()
 
