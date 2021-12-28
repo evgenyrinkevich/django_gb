@@ -18,9 +18,27 @@
     </li>
     {% if user.is_authenticated %}
         <li class="nav-item">
-            <a class="nav-link" href="{% url 'auth:edit' %}">
-                {{ user.first_name|default:'user'|title }}
-            </a>
+            <div class="dropdown">
+                <a class="dropdown-toggle nav-link" href="" data-toggle="dropdown">
+                        {{ user.first_name|default:'user'|title }}
+                        <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" style="background-color:transparent">
+                        <li>
+                            <a href="{% url 'auth:edit' %}">
+                                profile
+                            </a>
+                        </li>
+                        <li>
+                            <a href="{#% url 'orders:index' %#}">
+                                orders
+                            </a>
+                        </li>
+                    </ul>
+<!--            <a class="nav-link" href="{% url 'auth:edit' %}">-->
+<!--                {{ user.first_name|default:'user'|title }}-->
+<!--            </a>-->
+            </div>
         </li>
     {% endif %}
     {% if user.is_superuser %}
