@@ -30,14 +30,11 @@
                             </a>
                         </li>
                         <li>
-                            <a href="{#% url 'orders:index' %#}">
+                            <a href="{% url 'orders:index' %}">
                                 orders
                             </a>
                         </li>
                     </ul>
-<!--            <a class="nav-link" href="{% url 'auth:edit' %}">-->
-<!--                {{ user.first_name|default:'user'|title }}-->
-<!--            </a>-->
             </div>
         </li>
     {% endif %}
