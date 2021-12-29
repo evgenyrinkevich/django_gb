@@ -54,6 +54,8 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+
+    'social_django.middleware.SocialAuthExceptionMiddleware',
 ]
 
 ROOT_URLCONF = 'geekshop.urls'
@@ -73,6 +75,9 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'mainapp.context_processors.get_menu',
                 'mainapp.context_processors.get_basket',
+
+                'social_django.context_processors.backends',
+                'social_django.context_processors.login_redirect',
             ],
         },
     },
@@ -147,6 +152,7 @@ AUTH_USER_MODEL = 'authapp.ShopUser'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 LOGIN_URL = '/auth/login/'
+LOGIN_ERROR_URL = '/'
 
 # email settings
 DOMAIN_NAME = 'http://localhost:8000'
@@ -172,7 +178,7 @@ ACTIVATION_KEY_TTL = 48
 
 # Social authentication
 
-LOGIN_ERROR_URL = '/'
+
 
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
@@ -190,8 +196,19 @@ SOCIAL_AUTH_VK_OAUTH2_KEY = SOCIAL.get('SOCIAL_AUTH_VK_OAUTH2_KEY', '')
 SOCIAL_AUTH_VK_OAUTH2_SECRET = SOCIAL.get('SOCIAL_AUTH_VK_OAUTH2_SECRET', '')
 
 SOCIAL_AUTH_VK_OAUTH2_IGNORE_DEFAULT_SCOPE = True
-SOCIAL_AUTH_VK_OAUTH2_SCOPE = [
-    'email', 'bdate', 'sex', 'about'
-]
+SOCIAL_AUTH_VK_OAUTH2_SCOPE = ['email']
 
+SOCIAL_AUTH_VK_OAUTH2_API_VERSION = '5.131'
 SOCIAL_AUTH_VK_APP_USER_MODE = 2
+
+SOCIAL_AUTH_PIPELINE = (
+    'social_core.pipeline.social_auth.social_details',
+    'social_core.pipeline.social_auth.social_uid',
+    'social_core.pipeline.social_auth.auth_allowed',
+    'social_core.pipeline.social_auth.social_user',
+    'social_core.pipeline.user.create_user',
+    'authapp.pipeline.save_user_profile',
+    'social_core.pipeline.social_auth.associate_user',
+    'social_core.pipeline.social_auth.load_extra_data',
+    'social_core.pipeline.user.user_details',
+)
