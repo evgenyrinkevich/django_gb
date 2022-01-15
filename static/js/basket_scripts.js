@@ -18,5 +18,5 @@ window.onload = function () {
 //                 $('.basket').html(data.result)
 //             }
 //         });
-     })
+//     })
 };
