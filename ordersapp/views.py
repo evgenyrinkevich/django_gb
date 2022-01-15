@@ -1,7 +1,9 @@
 from django.db import transaction
 from django.forms import inlineformset_factory
-from django.urls import reverse_lazy
-from django.views.generic import ListView, CreateView, UpdateView
+from django.http import HttpResponseRedirect
+from django.shortcuts import get_object_or_404
+from django.urls import reverse_lazy, reverse
+from django.views.generic import ListView, CreateView, UpdateView, DetailView, DeleteView
 
 from ordersapp.forms import OrderForm, OrderItemForm
 from ordersapp.models import Order, OrderItem
@@ -27,7 +29,7 @@ class OrderCreate(CreateView):
     def get_context_data(self, **kwargs):
         data = super().get_context_data(**kwargs)
 
-        OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=3)
+        OrderFormSet = inlineformset_factory(Order, OrderItem, form=OrderItemForm, extra=1)
 
         if self.request.POST:
             formset = OrderFormSet(self.request.POST, self.request.FILES)
@@ -106,3 +108,20 @@ class OrderUpdate(UpdateView):
             self.object.delete()
 
         return result
+
+
+class OrderDetail(DetailView):
+    model = Order
+
+
+class OrderDelete(DeleteView):
+    model = Order
+    success_url = reverse_lazy('orders:index')
+
+
+def order_forming_complete(request, pk):
+    order = get_object_or_404(Order, pk=pk)
+    order.status = Order.SENT_TO_PROCEED
+    order.save()
+
+    return HttpResponseRedirect(reverse('orders:index'))

@@ -27,7 +27,7 @@
                     <td>{{ item.updated|date:"Y-m-d H:i:s" }}</td>
                     <td>{{ item.get_status_display }}</td>
                     <td>
-                        <a href="{#% url 'orders:order_read' item.pk %#}">
+                        <a href="{% url 'orders:order_detail' pk=item.pk %}">
                             info
                         </a>
                     </td>
@@ -40,7 +40,7 @@
                     </td>
                     <td>
                         {% if item.is_forming %}
-                            <a href="{#% url 'orders:order_delete' item.pk %#}">
+                            <a href="{% url 'orders:order_delete' pk=item.pk %}">
                                 delete
                             </a>
                         {% endif %}

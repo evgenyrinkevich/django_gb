@@ -1,0 +1,24 @@
+{% extends "ordersapp/base.html" %}
+{% load static %}
+{% load my_tags %}
+
+{% block content %}
+    <div class="container">
+    {% include 'ordersapp/includes/inc__order_summary.html' %}
+    <div class="basket_list">
+        {% for item in object.orderitems.all %}
+            <div class="basket_record">
+                <img src="{{ item.product.image|media_folder_products }}"
+                     alt="{{ item.product.description }}">
+                <span class="category_name">{{ item.product.category.name }}</span>
+                <span class="product_name">{{ item.product.name }}</span>
+                <span class="product_price">$&nbsp{{ item.product.price }}</span>
+                <span class="product_quantitiy">x {{ item.quantity }} pcs.</span>
+                <span class="product_cost"> = $&nbsp{{ item.product_cost }}</span>
+            </div>
+        {% endfor %}
+    </div>
+    </div>
+    {% include 'ordersapp/includes/inc__order_actions.html' %}
+
+{% endblock %}
