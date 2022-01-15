@@ -16,6 +16,12 @@ class ShopUser(AbstractUser):
     avatar = models.ImageField(upload_to='users_avatar', blank=True)
     activation_key = models.CharField(max_length=128, blank=True)
 
+    def basket_total_cost(self):
+        return sum(map(lambda x: x.product_cost, self.basket.all()))
+
+    def basket_total_qty(self):
+        return sum(map(lambda x: x.quantity, self.basket.all()))
+
     def save(self, *args, **kwargs):
         super().save(*args, **kwargs)
         if self.avatar:

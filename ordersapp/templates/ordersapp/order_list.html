@@ -21,7 +21,7 @@
             </thead>
             <tbody>
             {% for item in object_list %}
-                <tr>
+                    <tr style="{% if not item.is_active%}opacity:0.5{% endif %}">
                     <td class="td1 orders_list">{{ item.pk }}</td>
                     <td>{{ item.created|date:"Y-m-d H:i:s" }}</td>
                     <td>{{ item.updated|date:"Y-m-d H:i:s" }}</td>
@@ -33,7 +33,7 @@
                     </td>
                     <td>
                         {% if item.is_forming %}
-                            <a href="{#% url 'orders:order_update' pk=item.pk %#}">
+                            <a href="{% url 'orders:order_update' pk=item.pk %}">
                                 edit
                             </a>
                         {% endif %}

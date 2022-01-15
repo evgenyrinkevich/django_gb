@@ -177,9 +177,6 @@ ACTIVATION_KEY_TTL = 48
 
 
 # Social authentication
-
-
-
 AUTHENTICATION_BACKENDS = (
     'django.contrib.auth.backends.ModelBackend',
     'social_core.backends.vk.VKOAuth2',
