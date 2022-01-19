@@ -79,5 +79,7 @@ class OrderItem(models.Model):
         return self.product.price * self.quantity
 
     def delete(self, using=None, keep_parents=False):
+        super().delete()
         self.product.quantity += self.quantity
         self.product.save()
+
