@@ -110,14 +110,16 @@ window.onload = function () {
     $orderForm.on('change', 'select', function (event) {
         let orderitemPk = parseInt($(event.target).val());
         console.log(orderitemPk);
-//        $("#id_orderitems-" + orderitemPk.toString() + "-product").val(orderitemPk.toString());
-//        console.log("#id_orderitems-" + orderitemPk.toString() + "-product");
+        orderitemNum = parseInt(event.target.name.replace('orderitems-', '').replace('-product', ''));
         let priceToChangeElement = $(event.target).parent().parent().find('.td3');
         $.ajax({
             url: '/orders/order/update/price/' + orderitemPk + '/',
             type: "GET",
             success: function (data) {
                 priceToChangeElement.html(data.result);
+                let orderitemPrice = data.result;
+                console.log(orderitemPrice);
+                priceArr[orderitemNum] = orderitemPrice;
             }
         });
     });
